@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MY design — עיצוב בית</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Heebo:wght@300;400;500&family=Outfit:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="card">
+    <header class="logo-section">
+      <div class="logo-mark" aria-hidden="true"></div>
+      <h1 class="brand-name">MY design</h1>
+      <p class="brand-tagline">עיצוב בית</p>
+    </header>
+
+    <section class="contact-section">
+      <h2>צרו קשר</h2>
+      <ul class="contact-list">
+        <li class="contact-row-phones">
+          <span class="contact-icon phone" aria-hidden="true"></span>
+          <div class="contact-phones-inline">
+            <div>
+              <div class="contact-label">מילנה</div>
+              <div class="contact-value"><a href="tel:+972526162323">052-616-2323</a></div>
+            </div>
+            <div>
+              <div class="contact-label">יוליה</div>
+              <div class="contact-value"><a href="tel:+972524490308">052-449-0308</a></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <span class="contact-icon email" aria-hidden="true"></span>
+          <div>
+            <div class="contact-label">אימייל</div>
+            <div class="contact-value"><a href="mailto:mydisign29@gmail.com">mydisign29@gmail.com</a></div>
+          </div>
+        </li>
+        <li class="contact-row-phones">
+          <span class="contact-icon whatsapp" aria-hidden="true"></span>
+          <div class="contact-phones-wrap">
+            <div class="contact-label">ווטסאפ</div>
+            <div class="contact-phones-inline">
+              <div>
+                <div class="contact-value">
+                  <a class="contact-wa-link" href="https://wa.me/972526162323" target="_blank" rel="noopener"
+                    aria-label="שלח הודעה בוווטסאפ למילנה">
+                    <span class="contact-wa-link-icon" aria-hidden="true"></span>
+                    מילנה
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div class="contact-value">
+                  <a class="contact-wa-link" href="https://wa.me/972524490308" target="_blank" rel="noopener"
+                    aria-label="שלח הודעה בוווטסאפ ליוליה">
+                    <span class="contact-wa-link-icon" aria-hidden="true"></span>
+                    יוליה
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="gallery-section">
+    <h2>העבודות שלנו</h2>
+    <div class="gallery" role="list">
+      <div class="gallery-item" role="listitem"><img src="assets/images/1.jpg" alt=""></div>
+      <div class="gallery-item" role="listitem"><img src="assets/images/2.jpg" alt=""></div>
+      <div class="gallery-item" role="listitem"><img src="assets/images/3.jpg" alt=""></div>
+      <div class="gallery-item" role="listitem"><img src="assets/images/4.jpg" alt=""></div>
+      <div class="gallery-item" role="listitem"><img src="assets/images/5.jpg" alt=""></div>
+      <div class="gallery-item" role="listitem"><img src="assets/images/6.jpg" alt=""></div>
+    </div>
+  </section>
+
+  <div class="gallery-modal" id="gallery-modal" role="dialog" aria-modal="true" aria-label="תצוגה מקדימה של תמונה"
+    hidden>
+    <button type="button" class="gallery-modal-close" aria-label="סגור"></button>
+    <div class="gallery-modal-backdrop"></div>
+    <div class="gallery-modal-content">
+      <img src="" alt="" class="gallery-modal-img">
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var modal = document.getElementById('gallery-modal');
+      var modalImg = modal.querySelector('.gallery-modal-img');
+      var closeBtn = modal.querySelector('.gallery-modal-close');
+      var backdrop = modal.querySelector('.gallery-modal-backdrop');
+      var items = document.querySelectorAll('.gallery-item');
+
+      function openModal(src) {
+        modalImg.src = src;
+        modal.removeAttribute('hidden');
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.setAttribute('hidden', '');
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+
+      items.forEach(function (item) {
+        var img = item.querySelector('img');
+        if (img) {
+          item.addEventListener('click', function () { openModal(img.src); });
+        }
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      backdrop.addEventListener('click', closeModal);
+
+      modal.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      });
+    })();
+  </script>
+</body>
+
+</html>
