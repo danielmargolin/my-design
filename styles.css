@@ -16,7 +16,7 @@
 
 body {
   font-family: 'Heebo', 'Outfit', sans-serif;
-  background: #fff;
+  background: linear-gradient(160deg, var(--beige-light) 0%, var(--beige) 50%, var(--beige-dark) 100%);
   min-height: 100vh;
   color: var(--brown-dark);
   padding: 2rem 1rem;
