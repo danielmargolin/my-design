@@ -1,179 +1,266 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="he" dir="rtl">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MY design — עיצוב בית</title>
-  <link rel="canonical" href="https://my-design.pro/">
-  <meta name="description" content="MY design — עיצוב בית. צרו קשר לייעוץ ועיצוב פנים.">
-  <meta property="og:site_name" content="MY design">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://my-design.pro/">
-  <meta property="og:title" content="MY design — עיצוב בית">
-  <meta property="og:description" content="עיצוב בית — צרו קשר">
-  <meta property="og:locale" content="he_IL">
-  <meta property="og:image" content="https://my-design.pro/og-image.jpg">
-  <meta property="og:image:secure_url" content="https://my-design.pro/og-image.jpg">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="MY design — עיצוב בית">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MY design — עיצוב בית">
-  <meta name="twitter:description" content="עיצוב בית — צרו קשר">
-  <meta name="twitter:image" content="https://my-design.pro/og-image.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Design — אדריכלות ועיצוב פנים</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Heebo:wght@300;400;500&family=Outfit:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Heebo:wght@300;400;500;600;700&family=Outfit:wght@300;400;500&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="overlay-card.css">
+  <script>
+    // Must run before the browser restores scroll on refresh.
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+  </script>
 </head>
 
 <body>
-  <div class="card">
-    <header class="logo-section">
-      <div class="logo-mark" aria-hidden="true"></div>
-      <h1 class="brand-name">MY design</h1>
-      <p class="brand-tagline">עיצוב בית</p>
-    </header>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="MY Design דף הבית">
+      <svg class="brand__mark" viewBox="0 0 42 42" aria-hidden="true">
+        <path d="M5 32.5V17.75L21 7l16 10.75V32.5" />
+        <path d="M21 7V17" />
+        <path d="M13 34V22.5L21 17l8 5.5V34" />
+      </svg>
+      <span class="brand__name">MY Design</span>
+      <span class="brand__descriptor">Home Designing</span>
+    </a>
 
-    <section class="contact-section">
-      <h2>צרו קשר</h2>
-      <ul class="contact-list">
-        <li class="contact-row-phones">
-          <span class="contact-icon phone" aria-hidden="true"></span>
-          <div class="contact-phones-inline">
-            <div>
-              <div class="contact-label">מילנה</div>
-              <div class="contact-value"><a href="tel:+972526162323">052-616-2323</a></div>
-            </div>
-            <div>
-              <div class="contact-label">יוליה</div>
-              <div class="contact-value"><a href="tel:+972524490308">052-449-0308</a></div>
-            </div>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
+      aria-label="פתח תפריט ניווט">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="primary-navigation" class="site-nav" aria-label="ניווט ראשי">
+      <a class="site-nav__link" href="#overlay-gallery" data-scroll-overlay="overlay-gallery">
+        <span>פרויקטים</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M3 8h10M9 4l4 4-4 4" />
+        </svg>
+      </a>
+      <a class="site-nav__link site-nav__link--primary" href="#overlay-card" data-scroll-overlay="overlay-card">
+        <svg viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M3 8h10M9 4l4 4-4 4" />
+        </svg>
+        <span>צרו קשר</span>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="projects" class="sequence" aria-label="רצף תמונות מונחה גלילה">
+      <div class="sequence__stage">
+        <canvas class="sequence__canvas" aria-hidden="true"></canvas>
+
+        <!--
+          Frame overlays: timing lives in OVERLAY_FRAMES (script.js).
+          Give each .overlay a unique id that matches a key there.
+        -->
+        <div class="sequence__overlays" aria-live="polite">
+          <div class="overlay" id="overlay-lets-go" aria-hidden="true">
+            <button class="floating-cta" type="button" aria-label="התחל את הסיור">
+              <span>כנסו לסיור</span>
+              <span class="floating-cta__icon" aria-hidden="true">
+                <svg viewBox="0 0 18 18">
+                  <path d="M3 9h12M10 4l5 5-5 5" />
+                </svg>
+              </span>
+            </button>
           </div>
-        </li>
-        <li>
-          <span class="contact-icon email" aria-hidden="true"></span>
-          <div>
-            <div class="contact-label">אימייל</div>
-            <div class="contact-value"><a href="mailto:mydisign29@gmail.com">mydisign29@gmail.com</a></div>
+
+          <div class="overlay" id="overlay-card" aria-hidden="true">
+            <div class="card">
+              <header class="logo-section">
+                <div class="logo-mark" aria-hidden="true"></div>
+              </header>
+
+              <section class="contact-section">
+                <h2>צרו קשר</h2>
+                <ul class="contact-list">
+                  <li class="contact-row-phones">
+                    <span class="contact-icon phone" aria-hidden="true"></span>
+                    <div class="contact-phones-inline">
+                      <div>
+                        <div class="contact-label">יוליה</div>
+                        <div class="contact-value"><a href="tel:+972524490308">052-449-0308</a></div>
+                      </div>
+                      <div>
+                        <div class="contact-label">מילנה</div>
+                        <div class="contact-value"><a href="tel:+972526162323">052-616-2323</a></div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="contact-icon email" aria-hidden="true"></span>
+                    <div>
+                      <div class="contact-label">אימייל</div>
+                      <div class="contact-value"><a href="mailto:mydisign29@gmail.com">mydisign29@gmail.com</a></div>
+                    </div>
+                  </li>
+                  <li class="contact-row-phones">
+                    <span class="contact-icon whatsapp" aria-hidden="true"></span>
+                    <div class="contact-phones-wrap">
+                      <div class="contact-label">ווטסאפ</div>
+                      <div class="contact-phones-inline">
+                        <div>
+                          <div class="contact-value">
+                            <a class="contact-wa-link" href="https://wa.me/972524490308" target="_blank" rel="noopener"
+                              aria-label="שלח הודעה בוווטסאפ ליוליה">
+                              <span class="contact-wa-link-icon" aria-hidden="true"></span>
+                              יוליה
+                            </a>
+                          </div>
+                        </div>
+                        <div>
+                          <div class="contact-value">
+                            <a class="contact-wa-link" href="https://wa.me/972526162323" target="_blank" rel="noopener"
+                              aria-label="שלח הודעה בוווטסאפ למילנה">
+                              <span class="contact-wa-link-icon" aria-hidden="true"></span>
+                              מילנה
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+            </div>
+
+            <button class="floating-cta" type="button" data-scroll-overlay="overlay-gallery"
+              aria-label="לפרוייקטים שלנו">
+              <span>לפרוייקטים שלנו</span>
+              <span class="floating-cta__icon" aria-hidden="true">
+                <svg viewBox="0 0 18 18">
+                  <path d="M3 9h12M10 4l5 5-5 5" />
+                </svg>
+              </span>
+            </button>
           </div>
-        </li>
-        <li class="contact-row-phones">
-          <span class="contact-icon whatsapp" aria-hidden="true"></span>
-          <div class="contact-phones-wrap">
-            <div class="contact-label">ווטסאפ</div>
-            <div class="contact-phones-inline">
-              <div>
-                <div class="contact-value">
-                  <a class="contact-wa-link" href="https://wa.me/972526162323" target="_blank" rel="noopener"
-                    aria-label="שלח הודעה בוווטסאפ למילנה">
-                    <span class="contact-wa-link-icon" aria-hidden="true"></span>
-                    מילנה
-                  </a>
-                </div>
+
+          <div class="overlay" id="overlay-gallery" aria-hidden="true">
+            <section class="gallery-card" aria-labelledby="gallery-title">
+              <header class="gallery-card__header">
+                <h2 id="gallery-title">פרויקטים נבחרים</h2>
+              </header>
+              <div class="gallery-grid">
+                <figure class="gallery-grid__item gallery-grid__item--wide">
+                  <img data-src="gallery/1.jpg" alt="מטבח מודרני בגוונים בהירים עם גופי תאורה תלויים" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/7.png" alt="פינת ישיבה בעיצוב מודרני" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/8.png" alt="חלל פנים בעיצוב עכשווי" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item gallery-grid__item--wide">
+                  <img data-src="gallery/2.jpg" alt="סלון בהיר בעיצוב מודרני וחם" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/9.png" alt="חלל מטבח ופינת אוכל בעיצוב עץ מודרני" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/10.png" alt="פינת אוכל מודרנית" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item gallery-grid__item--wide">
+                  <img data-src="gallery/4.jpg" alt="סלון מרווח עם תאורה טבעית" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/3.jpg" alt="חלל אנכי בעיצוב מינימליסטי" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/11.png" alt="מטבח בעיצוב נקי" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item gallery-grid__item--wide">
+                  <img data-src="gallery/5.jpg" alt="חלל מגורים בעיצוב חם" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/12.png" alt="מטבח מודרני עם קיר ארונות מעץ" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/13.png" alt="פינת ישיבה עם חומרים טבעיים" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item gallery-grid__item--wide">
+                  <img data-src="gallery/6.jpg" alt="חלל פנים מודרני ומואר" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/14.png" alt="עיצוב פנים מודרני" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/15.png" alt="חלל מגורים בעיצוב עכשווי" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/16.png" alt="פרט עיצובי אנכי" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/17.png" alt="חלל צר בעיצוב מינימליסטי" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item gallery-grid__item--wide">
+                  <img data-src="gallery/19.png" alt="סלון בהיר עם ריהוט מודרני" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/18.png" alt="פרט עיצובי" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/21.png" alt="חלל אנכי בעיצוב בית" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item gallery-grid__item--wide">
+                  <img data-src="gallery/20.png" alt="חלל מגורים מודרני" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/22.png" alt="פינה בעיצוב מודרני" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/23.png" alt="פרט עיצוב פנים" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item gallery-grid__item--wide">
+                  <img data-src="gallery/25.png" alt="סלון בעיצוב חם ומודרני" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/24.png" alt="חלל אנכי" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/26.png" alt="עיצוב פנים" loading="lazy" decoding="async">
+                </figure>
+                <figure class="gallery-grid__item">
+                  <img data-src="gallery/27.png" alt="פרט עיצובי" loading="lazy" decoding="async">
+                </figure>
               </div>
-              <div>
-                <div class="contact-value">
-                  <a class="contact-wa-link" href="https://wa.me/972524490308" target="_blank" rel="noopener"
-                    aria-label="שלח הודעה בוווטסאפ ליוליה">
-                    <span class="contact-wa-link-icon" aria-hidden="true"></span>
-                    יוליה
-                  </a>
-                </div>
-              </div>
-            </div>
+            </section>
           </div>
-        </li>
-      </ul>
+        </div>
+
+        <div class="sequence__loader" role="status" aria-live="polite">
+          <div class="sequence__loader-grain" aria-hidden="true"></div>
+          <div class="sequence__loader-content">
+            <div class="sequence__loader-mark" aria-hidden="true">
+              <span class="sequence__loader-orbit"></span>
+              <svg viewBox="0 0 42 42">
+                <path d="M5 32.5V17.75L21 7l16 10.75V32.5" />
+                <path d="M21 7V17" />
+                <path d="M13 34V22.5L21 17l8 5.5V34" />
+              </svg>
+            </div>
+            <span class="sequence__loader-title" dir="ltr">MY Design</span>
+            <span class="sequence__loader-rule" aria-hidden="true"></span>
+            <span class="sequence__status">0%</span>
+          </div>
+        </div>
+      </div>
     </section>
-  </div>
+  </main>
 
-  <section class="gallery-section">
-    <h2>העבודות שלנו</h2>
-    <div class="gallery" role="list">
-      <div class="gallery-item" role="listitem"><img src="assets/images/1.jpg" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/2.jpg" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/3.jpg" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/4.jpg" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/5.jpg" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/6.jpg" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/7.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/8.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/9.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/10.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/11.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/12.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/13.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/14.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/15.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/16.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/17.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/18.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/19.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/20.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/21.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/22.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/23.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/24.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/25.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/26.png" alt=""></div>
-      <div class="gallery-item" role="listitem"><img src="assets/images/27.png" alt=""></div>
-    </div>
-  </section>
-
-  <div class="gallery-modal" id="gallery-modal" role="dialog" aria-modal="true" aria-label="תצוגה מקדימה של תמונה"
-    hidden>
-    <button type="button" class="gallery-modal-close" aria-label="סגור"></button>
-    <div class="gallery-modal-backdrop"></div>
-    <div class="gallery-modal-content">
-      <img src="" alt="" class="gallery-modal-img">
-    </div>
-  </div>
-
-  <script>
-    (function () {
-      var modal = document.getElementById('gallery-modal');
-      var modalImg = modal.querySelector('.gallery-modal-img');
-      var closeBtn = modal.querySelector('.gallery-modal-close');
-      var backdrop = modal.querySelector('.gallery-modal-backdrop');
-      var items = document.querySelectorAll('.gallery-item');
-
-      function openModal(src) {
-        modalImg.src = src;
-        modal.removeAttribute('hidden');
-        modal.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeModal() {
-        modal.setAttribute('hidden', '');
-        modal.classList.remove('is-open');
-        document.body.style.overflow = '';
-      }
-
-      items.forEach(function (item) {
-        var img = item.querySelector('img');
-        if (img) {
-          item.addEventListener('click', function () { openModal(img.src); });
-        }
-      });
-
-      closeBtn.addEventListener('click', closeModal);
-      backdrop.addEventListener('click', closeModal);
-
-      modal.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closeModal();
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
-      });
-    })();
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+  <script src="mobile-horizontal-scroll.js"></script>
 </body>
 
 </html>
