@@ -448,6 +448,49 @@
   }
 }
 
+/* Guest-colored CTA variant (light glass button) */
+.floating-cta.floating-cta--guest {
+  border-color: rgb(255 255 255 / 52%);
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 58%) 0%, rgb(255 255 255 / 28%) 100%);
+  box-shadow:
+    0 12px 36px rgb(8 15 24 / 18%),
+    inset 0 1px 0 rgb(255 255 255 / 72%);
+  color: #17191c;
+  backdrop-filter: blur(22px) saturate(145%) brightness(108%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%) brightness(108%);
+}
+
+.floating-cta.floating-cta--guest::before {
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 48%), transparent);
+}
+
+.floating-cta.floating-cta--guest .floating-cta__icon {
+  background: rgb(255 255 255 / 36%);
+  color: #17191c;
+}
+
+.floating-cta.floating-cta--guest:hover {
+  border-color: rgb(255 255 255 / 76%);
+  box-shadow:
+    0 20px 50px rgb(8 15 24 / 24%),
+    inset 0 1px 0 rgb(255 255 255 / 88%);
+}
+
+.floating-cta.floating-cta--guest:hover .floating-cta__icon {
+  background: rgb(255 255 255 / 52%);
+}
+
+#overlay-gallery {
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+#overlay-gallery .floating-cta {
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
 /* Glass gallery shown over the final sequence frames. */
 #overlay-gallery {
   --gallery-ink: #17191c;
