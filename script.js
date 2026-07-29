@@ -27,6 +27,16 @@ let frameScrollTween = null;
 let layoutWidth = window.innerWidth;
 let viewportResizeTimer = 0;
 
+function cancelFrameScrollTween() {
+  if (!frameScrollTween) {
+    return;
+  }
+
+  const tween = frameScrollTween;
+  frameScrollTween = null;
+  tween.kill();
+}
+
 function getScrollY() {
   return (
     window.pageYOffset ||
@@ -279,50 +289,47 @@ function scrollToFrame(frameNumber) {
     return;
   }
 
-  if (frameScrollTween) {
-    frameScrollTween.kill();
-    frameScrollTween = null;
-  }
-
-  // Keep start/end current before measuring the jump target.
-  ScrollTrigger.refresh();
+  cancelFrameScrollTween();
 
   const reducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
   const startY = getScrollY();
-  const targetY = () => getScrollYForFrame(frameNumber);
+  const targetY = getScrollYForFrame(frameNumber);
 
   if (reducedMotion) {
-    withInstantScroll(() => setScrollY(targetY()));
+    withInstantScroll(() => setScrollY(targetY));
     return;
   }
 
-  const initialTarget = targetY();
-  const distance = Math.abs(initialTarget - startY);
-  const duration = Math.min(1.6, Math.max(0.55, distance / 2200));
+  const distance = Math.abs(targetY - startY);
+  const duration = gsap.utils.clamp(0.65, 1.2, distance / 2600);
   const state = { t: 0 };
   const html = document.documentElement;
   const previousBehavior = html.style.scrollBehavior;
   html.style.scrollBehavior = "auto";
+  document.body.classList.add("is-sequence-jumping");
+
+  const cleanup = () => {
+    html.style.scrollBehavior = previousBehavior;
+    document.body.classList.remove("is-sequence-jumping");
+    frameScrollTween = null;
+  };
 
   frameScrollTween = gsap.to(state, {
     t: 1,
     duration,
-    ease: "power2.inOut",
+    ease: "power3.out",
     overwrite: true,
     onUpdate: () => {
-      // Recompute target while tweening — pin range can shift on mobile.
-      setScrollY(startY + (targetY() - startY) * state.t);
+      // Avoid fallback reads and layout-dependent writes on every animation tick.
+      window.scrollTo(0, startY + (targetY - startY) * state.t);
     },
     onComplete: () => {
-      setScrollY(targetY());
-      html.style.scrollBehavior = previousBehavior;
-      frameScrollTween = null;
+      setScrollY(targetY);
+      cleanup();
     },
-    onInterrupt: () => {
-      html.style.scrollBehavior = previousBehavior;
-    }
+    onInterrupt: cleanup
   });
 }
 
@@ -380,7 +387,9 @@ function frameUrl(index) {
 }
 
 function resizeCanvas() {
-  const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+  // A 2x full-viewport canvas can exceed eight million pixels per redraw.
+  const maxPixelRatio = isMobile ? 1 : 1.5;
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, maxPixelRatio);
   const width = stage.clientWidth;
   const height = stage.clientHeight;
 
@@ -388,7 +397,7 @@ function resizeCanvas() {
   canvas.height = Math.round(height * pixelRatio);
   context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   context.imageSmoothingEnabled = true;
-  context.imageSmoothingQuality = "high";
+  context.imageSmoothingQuality = "medium";
 
   lastDrawnFrame = -1;
   renderFrame();
@@ -477,7 +486,8 @@ function startSequence() {
         ? "bottom bottom"
         : () => `+=${window.innerHeight * 5}`,
       pin: isMobile ? false : stage,
-      scrub: 0.5,
+      // CTA jumps already provide easing; numeric scrub adds a second lag.
+      scrub: true,
       invalidateOnRefresh: true,
       anticipatePin: isMobile ? 0 : 1
     }
@@ -528,8 +538,25 @@ window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).addEventListener(
 
 // Horizontal gesture remapping (mobile-horizontal-scroll.js) interrupts jumps.
 window.addEventListener("sequence:scroll-interrupt", () => {
-  if (frameScrollTween) {
-    frameScrollTween.kill();
-    frameScrollTween = null;
+  cancelFrameScrollTween();
+});
+
+// Let direct user input take control immediately instead of fighting a CTA jump.
+window.addEventListener("wheel", cancelFrameScrollTween, { passive: true });
+window.addEventListener("touchstart", cancelFrameScrollTween, { passive: true });
+window.addEventListener("pointerdown", cancelFrameScrollTween, { passive: true });
+window.addEventListener("keydown", (event) => {
+  if (
+    [
+      "ArrowDown",
+      "ArrowUp",
+      "PageDown",
+      "PageUp",
+      "Home",
+      "End",
+      " "
+    ].includes(event.key)
+  ) {
+    cancelFrameScrollTween();
   }
 });

@@ -20,7 +20,8 @@ body {
 }
 
 html {
-  scroll-behavior: smooth;
+  /* CTA navigation is eased by GSAP; native smoothing would compete with it. */
+  scroll-behavior: auto;
 }
 
 body {
@@ -304,6 +305,20 @@ body {
 
 .sequence.is-ready .sequence__canvas {
   opacity: 1;
+}
+
+/*
+ * Backdrop blur repaints against every canvas frame. Keep the translucent
+ * surfaces, but skip that expensive sampling during short CTA-driven jumps.
+ */
+body.is-sequence-jumping .site-header,
+body.is-sequence-jumping .floating-cta,
+body.is-sequence-jumping #overlay-card .card,
+body.is-sequence-jumping #overlay-card .card::before,
+body.is-sequence-jumping #overlay-gallery .gallery-card,
+body.is-sequence-jumping #overlay-gallery .gallery-card::before {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* —— Frame overlays ——
